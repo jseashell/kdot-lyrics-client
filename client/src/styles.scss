@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+@import "material-icons/iconfont/material-icons.css";
+
+html {
+  height: 100%;
+}
+
+body {
+  --app-background: white;
+  --app-foreground: black;
+
+  min-height: 100%;
+  background-color: var(--app-background);
+  color: var(--app-foreground);
+}
+
+body {
+  margin: 0 auto;
+  font-family: Inter, Roboto, "Helvetica Neue", sans-serif;
+}

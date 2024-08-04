@@ -13,8 +13,8 @@ jobs:
         uses: actions/setup-node@v4
       - name: Setup Serverless
         run: |
-          npm i -g serverless@3
-          npm i -g @serverless/compose
+          npm i -g serverless@3 --silent
+          npm i -g @serverless/compose --silent
       - name: Build client
         run: |
           cd client 

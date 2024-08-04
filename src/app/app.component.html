@@ -1,5 +1,22 @@
-<header></header>
-<main>
-  <app-song></app-song>
+<main #main>
+  @if (song$ | async; as song) {
+    <mat-card>
+      <mat-card-content>
+        <ul>
+          @for (lyric of song.lyrics; track lyric) {
+            <li>
+              <p>{{ lyric }}</p>
+            </li>
+          }
+        </ul>
+        <p class="title">
+          <img [src]="song?.song?.header_image_thumbnail_url" width="64" height="64" />
+          <i> - {{ song?.song?.title }} </i>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  }
+  <button mat-icon-button (click)="refresh($event)">
+    <mat-icon>refresh</mat-icon>
+  </button>
 </main>
-<footer></footer>

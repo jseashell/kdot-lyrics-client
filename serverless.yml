@@ -16,7 +16,7 @@ custom:
     - distributionIdKey: DistributionId # from stack outputs
       autoInvalidate: true
       items:
-        - "/*"
+        - '/*'
 
 provider:
   name: aws
@@ -41,14 +41,14 @@ resources:
         Bucket: !Ref Bucket
         PolicyDocument:
           Id: BucketPolicy
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
             - Sid: AllowCloudFrontServicePrincipalReadOnly
               Effect: Allow
               Principal:
                 Service: cloudfront.amazonaws.com
               Action: s3:GetObject
-              Resource: !Join ["", ["arn:aws:s3:::", !Ref Bucket, /*]]
+              Resource: !Join ['', ['arn:aws:s3:::', !Ref Bucket, /*]]
     OriginAccessControl:
       Type: AWS::CloudFront::OriginAccessControl
       Properties:
@@ -78,7 +78,7 @@ resources:
             - DomainName: ${self:custom.bucketName}.s3.amazonaws.com # CF Distribution domain must be the same as the S3 bucket URL
               Id: S3-${self:custom.bucketName}
               S3OriginConfig:
-                OriginAccessIdentity: ""
+                OriginAccessIdentity: ''
               OriginAccessControlId: !Ref OriginAccessControl
           # ViewerCertificate:
           #   AcmCertificateArn: !Ref Certificate

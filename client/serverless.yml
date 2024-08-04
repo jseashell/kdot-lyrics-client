@@ -1,4 +1,5 @@
 service: kdot-info
+frameworkVersion: 3
 
 plugins:
   - serverless-s3-sync

@@ -1,0 +1,34 @@
+service: kdot-info-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: go1.x
+  region: us-east-1
+  httpApi:
+    cors: true
+  logs:
+    httpApi: true
+  iam:
+   role:
+     statements:
+       - Effect: "Allow"
+         Action:
+          - "dynamodb:GetItem"
+          - "dynamodb:Scan"
+         Resource:
+          - "arn:aws:dynamodb:*:*:table/kdot-songs-main"
+
+package:
+  individually: true
+  patterns:
+    - '!./**'
+    - ./bin/**
+
+functions:
+  random:
+    handler: bin/random
+    events:
+      - httpApi:
+          path: /random
+          method: get

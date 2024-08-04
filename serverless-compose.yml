@@ -1,0 +1,5 @@
+services:
+  api:
+    path: api
+  client:
+    path: client

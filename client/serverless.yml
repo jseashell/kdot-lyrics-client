@@ -1,0 +1,112 @@
+service: kdot-info
+
+plugins:
+  - serverless-s3-sync
+  - serverless-cloudfront-invalidate # add as the last plugin
+
+custom:
+  bucketName: ${self:service}-${sls:tage}
+  # domainName:  k.info
+  # route53HostedZoneId: Z08680303K4CJNFJ4JZAV
+  cloudfrontHostedZoneId: Z2FDTNDATAQYW2
+  s3Sync:
+    - bucketName: ${self:custom.bucketName}
+      localDir: dist/kdot-info/browser
+  cloudfrontInvalidate:
+    - distributionIdKey: DistributionId # from stack outputs
+      autoInvalidate: true
+      items:
+        - "/*"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  memorySize: 128
+  region: us-east-1
+
+resources:
+  Resources:
+    Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.bucketName}
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+    BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref Bucket
+        PolicyDocument:
+          Id: BucketPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: AllowCloudFrontServicePrincipalReadOnly
+              Effect: Allow
+              Principal:
+                Service: cloudfront.amazonaws.com
+              Action: s3:GetObject
+              Resource: !Join ["", ["arn:aws:s3:::", !Ref Bucket, /*]]
+    OriginAccessControl:
+      Type: AWS::CloudFront::OriginAccessControl
+      Properties:
+        OriginAccessControlConfig:
+          Name: ${self:service}-${sls:stage}-oac
+          OriginAccessControlOriginType: s3
+          SigningBehavior: always
+          SigningProtocol: sigv4
+    Distribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Aliases:
+            - ${self:custom.domainName}
+          DefaultRootObject: index.html
+          DefaultCacheBehavior:
+            Compress: true
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+            TargetOriginId: S3-${self:custom.bucketName}
+            CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # Managed-CachingOptimized
+            ViewerProtocolPolicy: redirect-to-https
+          Enabled: true
+          Origins:
+            - DomainName: ${self:custom.bucketName}.s3.amazonaws.com # CF Distribution domain must be the same as the S3 bucket URL
+              Id: S3-${self:custom.bucketName}
+              S3OriginConfig:
+                OriginAccessIdentity: ""
+              OriginAccessControlId: !Ref OriginAccessControl
+          # ViewerCertificate:
+          #   AcmCertificateArn: !Ref Certificate
+          #   MinimumProtocolVersion: TLSv1.2_2021
+          #   SslSupportMethod: sni-only
+    # Certificate:
+    #   Type: AWS::CertificateManager::Certificate
+    #   Properties:
+    #     DomainName: ${self:custom.domainName}
+    #     DomainValidationOptions:
+    #       - DomainName: ${self:custom.domainName}
+    #         HostedZoneId: ${self:custom.route53HostedZoneId}
+    #     ValidationMethod: DNS
+    # RecordSetGroup:
+    #   Type: AWS::Route53::RecordSetGroup
+    #   Properties:
+    #     HostedZoneId: ${self:custom.route53HostedZoneId}
+    #     RecordSets:
+    #       - Name: ${self:custom.domainName}
+    #         Type: A
+    #         AliasTarget:
+    #           HostedZoneId: ${self:custom.cloudfrontHostedZoneId}
+    #           DNSName: !GetAtt Distribution.DomainName
+    #       - Name: ${self:custom.domainName}
+    #         Type: AAAA
+    #         AliasTarget:
+    #           HostedZoneId: ${self:custom.cloudfrontHostedZoneId}
+    #           DNSName: !GetAtt Distribution.DomainName
+  Outputs:
+    DistributionId:
+      Value: !Ref Distribution

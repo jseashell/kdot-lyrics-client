@@ -14,15 +14,18 @@ jobs:
       - name: Setup Serverless
         run: |
           npm i -g serverless@3 @serverless/compose --silent
-      - name: Build client
+      - name: Setup zip
+        uses: montudor/action-zip@v1
+      - name: Build
         run: |
           cd client 
           npm ci --silent
           npm run build
-      - name: Build API
-        run: |
-          cd api
+          cd ../api
           make build
+      - name: Package
+        run: zip -qq -r main.zip bootstrap # zip -qq -r dir.zip dir
+        working-directory: api                                            
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

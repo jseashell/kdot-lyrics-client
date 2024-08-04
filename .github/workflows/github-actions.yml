@@ -11,21 +11,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
-      - name: Setup Serverless
-        run: |
-          npm i -g serverless@3 @serverless/compose --silent
-      - name: Setup zip
-        uses: montudor/action-zip@v1
-      - name: Build
-        run: |
-          cd client 
-          npm ci --silent
-          npm run build
-          cd ../api
-          make build
-      - name: Package
-        run: zip bootstrap.zip api/bootstrap
-        working-directory: api                                            
+      - name: Install project
+        run: npm ci --silent
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

@@ -11,7 +11,7 @@ custom:
   cloudfrontHostedZoneId: Z2FDTNDATAQYW2
   s3Sync:
     - bucketName: ${self:custom.bucketName}
-      localDir: dist/kdot-info/browser
+      localDir: dist/kdot-info-client/browser
   cloudfrontInvalidate:
     - distributionIdKey: DistributionId # from stack outputs
       autoInvalidate: true

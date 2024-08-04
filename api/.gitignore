@@ -2,7 +2,7 @@
 .serverless
 
 # golang aws output binary directory
-bootstrap
+bin
 
 # golang vendor (dependencies) directory
 vendor

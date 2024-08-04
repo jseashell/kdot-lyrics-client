@@ -24,7 +24,7 @@ jobs:
           cd ../api
           make build
       - name: Package
-        run: zip -qq -r main.zip bootstrap # zip -qq -r dir.zip dir
+        run: zip -qq bootstrap.zip bin/bootstrap
         working-directory: api                                            
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1

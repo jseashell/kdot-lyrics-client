@@ -15,6 +15,89 @@ import (
 	"github.com/google/uuid"
 )
 
+var DB_NAME = "kdot-songs-main"
+
+// Handler is our lambda handler invoked by the `lambda.Start` function call
+func Handler(ctx context.Context) (Response, error) {
+	var buf bytes.Buffer
+
+	data := random()
+	body, err := json.Marshal(data)
+	if err != nil {
+		return Response{StatusCode: 404}, err
+	}
+	json.HTMLEscape(&buf, body)
+
+	resp := Response{
+		StatusCode:      200,
+		IsBase64Encoded: false,
+		Body:            buf.String(),
+		Headers: map[string]string{
+			"Content-Type": "application/json",
+		},
+	}
+
+	return resp, nil
+}
+
+func main() {
+	lambda.Start(Handler)
+}
+
+func random() Data {
+	dbClient := newDbClient()
+
+	av, _ := attributevalue.MarshalMap(map[string]interface{}{
+		"ID": uuid.NewString(),
+	})
+
+	limit := int32(1)
+	limitPtr := &limit
+
+	res, err := dbClient.Scan(context.TODO(), &dynamodb.ScanInput{
+		ExclusiveStartKey: av,
+		TableName:         aws.String(DB_NAME),
+		Limit:             limitPtr,
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	randomSong := &RandomSong{}
+	attributevalue.UnmarshalMap(res.Items[0], randomSong)
+
+	data := Data{
+		ID: randomSong.ID,
+		Song: Song{
+			ArtistNames:              randomSong.Song.ArtistNames,
+			FullTitle:                randomSong.Song.FullTitle,
+			HeaderImageThumbnailURL:  randomSong.Song.HeaderImageThumbnailURL,
+			HeaderImageURL:           randomSong.Song.HeaderImageURL,
+			SongID:                   randomSong.Song.SongID,
+			ID:                       randomSong.Song.ID,
+			Path:                     randomSong.Song.Path,
+			ReleaseDateForDisplay:    randomSong.Song.ReleaseDateForDisplay,
+			SongArtImageThumbnailURL: randomSong.Song.SongArtImageThumbnailURL,
+			SongArtImageURL:          randomSong.Song.SongArtImageURL,
+			Title:                    randomSong.Song.Title,
+			URL:                      randomSong.Song.URL,
+		},
+		Lyrics: randomSong.Lyrics,
+	}
+
+	return data
+}
+
+func newDbClient() *dynamodb.Client {
+	cfg, err := config.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		slog.Error("Unable to load AWS SDK config.")
+		panic(err)
+	}
+	return dynamodb.NewFromConfig(cfg)
+}
+
 // Response is of type APIGatewayProxyResponse since we're leveraging the
 // AWS Lambda Proxy Request functionality (default behavior)
 //
@@ -58,85 +141,4 @@ type RandomSong struct {
 		URL                      string `dynamodbav:"URL"`
 	} `dynamodbav:"Song"`
 	Lyrics []string `dynamodbav:"Lyrics"`
-}
-
-// Handler is our lambda handler invoked by the `lambda.Start` function call
-func Handler(ctx context.Context) (Response, error) {
-	var buf bytes.Buffer
-
-	data := random()
-	body, err := json.Marshal(data)
-	if err != nil {
-		return Response{StatusCode: 404}, err
-	}
-	json.HTMLEscape(&buf, body)
-
-	resp := Response{
-		StatusCode:      200,
-		IsBase64Encoded: false,
-		Body:            buf.String(),
-		Headers: map[string]string{
-			"Content-Type": "application/json",
-		},
-	}
-
-	return resp, nil
-}
-
-func main() {
-	lambda.Start(Handler)
-}
-
-func random() Data {
-	dbClient := newDbClient()
-
-	av, _ := attributevalue.MarshalMap(map[string]interface{}{
-		"ID": uuid.NewString(),
-	})
-
-	limit := int32(1)
-	limitPtr := &limit
-
-	res, err := dbClient.Scan(context.TODO(), &dynamodb.ScanInput{
-		ExclusiveStartKey: av,
-		TableName:         aws.String("kdot-songs-main"),
-		Limit:             limitPtr,
-	})
-
-	if err != nil {
-		panic(err)
-	}
-
-	randomSong := &RandomSong{}
-	attributevalue.UnmarshalMap(res.Items[0], randomSong)
-
-	data := Data{
-		ID: randomSong.ID,
-		Song: Song{
-			ArtistNames:              randomSong.Song.ArtistNames,
-			FullTitle:                randomSong.Song.FullTitle,
-			HeaderImageThumbnailURL:  randomSong.Song.HeaderImageThumbnailURL,
-			HeaderImageURL:           randomSong.Song.HeaderImageURL,
-			SongID:                   randomSong.Song.SongID,
-			ID:                       randomSong.Song.ID,
-			Path:                     randomSong.Song.Path,
-			ReleaseDateForDisplay:    randomSong.Song.ReleaseDateForDisplay,
-			SongArtImageThumbnailURL: randomSong.Song.SongArtImageThumbnailURL,
-			SongArtImageURL:          randomSong.Song.SongArtImageURL,
-			Title:                    randomSong.Song.Title,
-			URL:                      randomSong.Song.URL,
-		},
-		Lyrics: randomSong.Lyrics,
-	}
-
-	return data
-}
-
-func newDbClient() *dynamodb.Client {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
-	if err != nil {
-		slog.Error("Unable to load AWS SDK config.")
-		panic(err)
-	}
-	return dynamodb.NewFromConfig(cfg)
 }

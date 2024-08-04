@@ -1,8 +1,8 @@
 # Serverless directories
 .serverless
 
-# golang aws output binary directory
-bin
+# golang aws output binary
+bootstrap
 
 # golang vendor (dependencies) directory
 vendor

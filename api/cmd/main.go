@@ -21,7 +21,7 @@ var DB_NAME = "kdot-songs-main"
 func Handler(ctx context.Context) (Response, error) {
 	var buf bytes.Buffer
 
-	data := random()
+	data := randomSong()
 	body, err := json.Marshal(data)
 	if err != nil {
 		return Response{StatusCode: 404}, err
@@ -44,7 +44,7 @@ func main() {
 	lambda.Start(Handler)
 }
 
-func random() Data {
+func randomSong() Data {
 	dbClient := newDbClient()
 
 	av, _ := attributevalue.MarshalMap(map[string]interface{}{

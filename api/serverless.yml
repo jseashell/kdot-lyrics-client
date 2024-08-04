@@ -1,5 +1,5 @@
 service: kdot-info-api
-frameworkVersion: 3
+frameworkVersion: '3'
 
 provider:
   name: aws
@@ -26,9 +26,9 @@ package:
     - ./bootstrap/**
 
 functions:
-  random:
-    handler: bootstrap
+  random_song:
+    handler: bootstrap/main
     events:
       - httpApi:
-          path: /random
+          path: /random-song
           method: get

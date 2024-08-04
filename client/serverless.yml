@@ -1,4 +1,4 @@
-service: kdot-info
+service: kdot-info-client
 frameworkVersion: 3
 
 plugins:

@@ -23,11 +23,11 @@ package:
   individually: true
   patterns:
     - '!./**'
-    - ./bin/**
+    - ./bootstrap/**
 
 functions:
   random:
-    handler: bin/random
+    handler: bootstrap
     events:
       - httpApi:
           path: /random

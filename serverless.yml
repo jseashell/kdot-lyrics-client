@@ -1,4 +1,4 @@
-service: kdot-info-client
+service: kdot-lyrics-client
 
 plugins:
   - serverless-s3-sync
@@ -6,12 +6,12 @@ plugins:
 
 custom:
   bucketName: ${self:service}-${sls:stage}
-  # domainName:  k.info
-  # route53HostedZoneId: Z08680303K4CJNFJ4JZAV
+  domainName: kdotlyrics.com
+  route53HostedZoneId: Z001660415PYPR7BX92GW
   cloudfrontHostedZoneId: Z2FDTNDATAQYW2
   s3Sync:
     - bucketName: ${self:custom.bucketName}
-      localDir: dist/kdot-info-client/browser
+      localDir: dist/kdot-lyrics-client/browser
   cloudfrontInvalidate:
     - distributionIdKey: DistributionId # from stack outputs
       autoInvalidate: true
@@ -61,8 +61,8 @@ resources:
       Type: AWS::CloudFront::Distribution
       Properties:
         DistributionConfig:
-          # Aliases:
-          #   - ${self:custom.domainName}
+          Aliases:
+            - ${self:custom.domainName}
           DefaultRootObject: index.html
           DefaultCacheBehavior:
             Compress: true
@@ -80,33 +80,33 @@ resources:
               S3OriginConfig:
                 OriginAccessIdentity: ''
               OriginAccessControlId: !Ref OriginAccessControl
-          # ViewerCertificate:
-          #   AcmCertificateArn: !Ref Certificate
-          #   MinimumProtocolVersion: TLSv1.2_2021
-          #   SslSupportMethod: sni-only
-    # Certificate:
-    #   Type: AWS::CertificateManager::Certificate
-    #   Properties:
-    #     DomainName: ${self:custom.domainName}
-    #     DomainValidationOptions:
-    #       - DomainName: ${self:custom.domainName}
-    #         HostedZoneId: ${self:custom.route53HostedZoneId}
-    #     ValidationMethod: DNS
-    # RecordSetGroup:
-    #   Type: AWS::Route53::RecordSetGroup
-    #   Properties:
-    #     HostedZoneId: ${self:custom.route53HostedZoneId}
-    #     RecordSets:
-    #       - Name: ${self:custom.domainName}
-    #         Type: A
-    #         AliasTarget:
-    #           HostedZoneId: ${self:custom.cloudfrontHostedZoneId}
-    #           DNSName: !GetAtt Distribution.DomainName
-    #       - Name: ${self:custom.domainName}
-    #         Type: AAAA
-    #         AliasTarget:
-    #           HostedZoneId: ${self:custom.cloudfrontHostedZoneId}
-    #           DNSName: !GetAtt Distribution.DomainName
+          ViewerCertificate:
+            AcmCertificateArn: !Ref Certificate
+            MinimumProtocolVersion: TLSv1.2_2021
+            SslSupportMethod: sni-only
+    Certificate:
+      Type: AWS::CertificateManager::Certificate
+      Properties:
+        DomainName: ${self:custom.domainName}
+        DomainValidationOptions:
+          - DomainName: ${self:custom.domainName}
+            HostedZoneId: ${self:custom.route53HostedZoneId}
+        ValidationMethod: DNS
+    RecordSetGroup:
+      Type: AWS::Route53::RecordSetGroup
+      Properties:
+        HostedZoneId: ${self:custom.route53HostedZoneId}
+        RecordSets:
+          - Name: ${self:custom.domainName}
+            Type: A
+            AliasTarget:
+              HostedZoneId: ${self:custom.cloudfrontHostedZoneId}
+              DNSName: !GetAtt Distribution.DomainName
+          - Name: ${self:custom.domainName}
+            Type: AAAA
+            AliasTarget:
+              HostedZoneId: ${self:custom.cloudfrontHostedZoneId}
+              DNSName: !GetAtt Distribution.DomainName
   Outputs:
     DistributionId:
       Value: !Ref Distribution

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "kdot-info": {
+    "kdot-lyrics-client": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "kdot-info:build:production"
+              "buildTarget": "kdot-lyrics-client:build:production"
             },
             "development": {
-              "buildTarget": "kdot-info:build:development"
+              "buildTarget": "kdot-lyrics-client:build:development"
             }
           },
           "defaultConfiguration": "development"

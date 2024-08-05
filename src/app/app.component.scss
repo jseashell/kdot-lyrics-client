@@ -17,7 +17,7 @@ main {
   background-size: cover;
 
   color: white;
-  font-size: 1.5em;
+  font-size: 1em;
 
   mat-card {
     width: 95%;
@@ -40,12 +40,17 @@ main {
   }
 
   div.title img {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
   }
 
   div.title p {
     display: flex;
     flex-direction: column;
+  }
+
+  div.title p span.song-title {
+    font-size: 22px;
+    font-weight: 500;
   }
 
   div.title p span.artist-names,

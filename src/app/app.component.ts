@@ -6,13 +6,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { firstValueFrom, ReplaySubject, Subscription } from 'rxjs';
+import { ScrollingTextComponent } from './features/scrolling-text/scrolling-text.component';
 import { ScrapedSong } from './song.interface';
 import { SongService } from './song.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatDividerModule, MatIconModule],
+  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatDividerModule, MatIconModule, ScrollingTextComponent],
   providers: [SongService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -33,6 +34,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     'The Late Show with Stephen Colbert',
     '2014 Grammys',
     'Hot 97',
+    'DJ Mix',
   ].join(',');
 
   ngAfterViewInit() {
@@ -52,15 +54,23 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         }),
     );
 
-    this.songService.random$.subscribe(async (song) => {
-      if (
-        song?.song?.title &&
-        !this.ignorelist.includes(song?.song?.title) &&
-        song?.song?.header_image_thumbnail_url &&
-        song?.lyrics?.length > 0
-      ) {
-        this.song$.next(song);
+    this.songService.random$.subscribe(async (randomSong) => {
+      if (this.ignorelist.includes(randomSong?.song?.title)) {
+        console.debug('retrying...ignorelist', this.ignorelist, randomSong);
       } else {
+        console.debug('allowlisted', this.ignorelist, randomSong);
+      }
+
+      if (
+        randomSong &&
+        randomSong?.song?.title &&
+        !this.ignorelist.includes(randomSong?.song?.title) &&
+        randomSong?.song?.header_image_thumbnail_url &&
+        randomSong?.lyrics?.length > 0
+      ) {
+        this.song$.next(randomSong);
+      } else {
+        console.debug('retrying...ignorelist', randomSong);
         let exit = false;
         let song: ScrapedSong;
         const max = 10;
@@ -71,10 +81,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
           if (retrySong?.song?.title && retrySong?.song?.header_image_thumbnail_url && retrySong?.lyrics?.length == 4) {
             song = retrySong;
+            console.debug('retry complete', song);
             exit = true;
           }
-          i++;
 
+          i++;
           if (i >= max) {
             // avoid infinite loop
             exit = true;

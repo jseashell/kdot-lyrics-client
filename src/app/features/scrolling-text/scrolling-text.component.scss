@@ -1,0 +1,20 @@
+div {
+  width: 295px; /* Adjust based on your design */
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+span {
+  display: inline-block;
+  animation: scroller 10s linear infinite;
+}
+
+@keyframes scroller {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

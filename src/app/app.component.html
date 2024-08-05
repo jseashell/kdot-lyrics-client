@@ -10,12 +10,30 @@
           }
         </ul>
         <div class="title">
-          <img [src]="song?.song?.header_image_thumbnail_url" width="128" height="128" />
-          <p>
-            <span class="song-title">{{ song?.song?.title }}</span>
-            <span class="artist-names">{{ song?.song?.artist_names }}</span>
-            <span class="album-name">{{ song?.album?.name }}</span>
-          </p>
+          <img [src]="song?.song?.header_image_thumbnail_url" width="64" height="64" />
+          <div>
+            @if (song?.song?.title && song.song.title.length > 35) {
+              <app-scrolling-text [value]="song.song.title"></app-scrolling-text>
+            } @else {
+              <span>{{ song?.song?.title }}</span>
+            }
+
+            @if (song?.song?.artist_names && song.song.artist_names.length > 35) {
+              <app-scrolling-text [value]="song.song.artist_names"></app-scrolling-text>
+            } @else {
+              <span>{{ song?.song?.artist_names }}</span>
+            }
+
+            @if (!song.album?.name) {
+              <span><i>Single</i></span>
+            } @else {
+              @if ((song.album?.name ?? '').length > 35) {
+                <app-scrolling-text [value]="song?.album?.name ?? ''"></app-scrolling-text>
+              } @else {
+                <span>{{ song.album?.name }}</span>
+              }
+            }
+          </div>
         </div>
       </mat-card-content>
     </mat-card>

@@ -11,7 +11,7 @@
       <div class="title">
         <img [src]="song.album?.cover_art_url || song?.song?.header_image_thumbnail_url" width="64" height="64" />
         <div>
-          @if (song?.song?.title && song.song.title.length > 35) {
+          @if (song?.song?.title && song.song.title.length > 25) {
             <app-scrolling-text [value]="song.song.title"></app-scrolling-text>
           } @else {
             <span>
@@ -19,7 +19,7 @@
             </span>
           }
 
-          @if (song?.song?.artist_names && song.song.artist_names.length > 35) {
+          @if (song?.song?.artist_names && song.song.artist_names.length > 25) {
             <app-scrolling-text [value]="song.song.artist_names"></app-scrolling-text>
           } @else {
             <span>{{ song?.song?.artist_names }}</span>
@@ -28,17 +28,17 @@
           @if (!song.album?.name) {
             <span><i>Single</i></span>
           } @else {
-            @if ((song.album?.name ?? '').length > 35) {
+            @if ((song.album?.name ?? '').length > 25) {
               <app-scrolling-text [value]="song?.album?.name ?? ''"></app-scrolling-text>
             } @else {
               <span>{{ song.album?.name }}</span>
             }
           }
         </div>
+        <button mat-icon-button (click)="refresh($event)">
+          <mat-icon>refresh</mat-icon>
+        </button>
       </div>
     </mat-card-content>
   </mat-card>
 }
-<button mat-icon-button (click)="refresh($event)">
-  <mat-icon>refresh</mat-icon>
-</button>

@@ -7,8 +7,9 @@
   justify-content: center;
 
   position: relative;
-  background: url('/bg-mobile.webp');
+  background: url('/images/bg/home-full.webp');
   background-size: cover;
+  background-position: 35%;
   color: white;
   font-size: 1em;
 }
@@ -63,21 +64,20 @@ mat-icon {
 }
 
 :host.web {
-  background: url('/bg-full.webp');
-  background-size: cover;
+  background-position: unset;
   font-size: 2em;
+}
 
-  mat-card {
-    max-width: 1200px;
-  }
+:host.web mat-card {
+  max-width: 1200px;
+}
 
-  button {
-    position: relative;
-    margin-top: 2rem;
-  }
+:host.web button {
+  position: relative;
+  margin-top: 2rem;
+}
 
-  mat-icon {
-    width: 4rem;
-    height: 4rem;
-  }
+:host.web mat-icon {
+  width: 4rem;
+  height: 4rem;
 }

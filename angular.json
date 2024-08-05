@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/kdot-info-client",
+            "outputPath": "dist/kdot-lyrics-client",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],

@@ -1,0 +1,7 @@
+<ul>
+  @for (album of albums; track $index) {
+    <li>
+      <app-album-card [album]="album" [width]="album.width"></app-album-card>
+    </li>
+  }
+</ul>

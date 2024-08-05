@@ -1,44 +1,12 @@
-<main #main>
-  @if (song$ | async; as song) {
-    <mat-card>
-      <mat-card-content>
-        <ul>
-          @for (lyric of song.lyrics; track $index) {
-            <li>
-              <p>{{ lyric }}</p>
-            </li>
-          }
-        </ul>
-        <div class="title">
-          <img [src]="song?.song?.header_image_thumbnail_url" width="64" height="64" />
-          <div>
-            @if (song?.song?.title && song.song.title.length > 35) {
-              <app-scrolling-text [value]="song.song.title"></app-scrolling-text>
-            } @else {
-              <span>{{ song?.song?.title }}</span>
-            }
-
-            @if (song?.song?.artist_names && song.song.artist_names.length > 35) {
-              <app-scrolling-text [value]="song.song.artist_names"></app-scrolling-text>
-            } @else {
-              <span>{{ song?.song?.artist_names }}</span>
-            }
-
-            @if (!song.album?.name) {
-              <span><i>Single</i></span>
-            } @else {
-              @if ((song.album?.name ?? '').length > 35) {
-                <app-scrolling-text [value]="song?.album?.name ?? ''"></app-scrolling-text>
-              } @else {
-                <span>{{ song.album?.name }}</span>
-              }
-            }
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  }
-  <button mat-icon-button (click)="refresh($event)">
-    <mat-icon>refresh</mat-icon>
-  </button>
-</main>
+<div>
+  <main #main>
+    <router-outlet></router-outlet>
+  </main>
+  <header>
+    <nav>
+      <a mat-flat-button routerLink="/home">Home</a>
+      <a mat-flat-button routerLink="/albums">Albums</a>
+      <a mat-flat-button routerLink="/home">Links</a>
+    </nav>
+  </header>
+</div>

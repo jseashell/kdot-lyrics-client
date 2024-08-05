@@ -1,0 +1,19 @@
+:host {
+  width: 100%;
+}
+
+mat-card {
+  height: 12rem;
+}
+
+mat-card-content {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 6rem;
+}
+
+span.date {
+  white-space: nowrap;
+}

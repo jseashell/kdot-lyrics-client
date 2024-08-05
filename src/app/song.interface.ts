@@ -1,6 +1,7 @@
 export interface ScrapedSong {
   id: string;
   song: Song;
+  album: Album;
   lyrics: string[];
 }
 
@@ -20,7 +21,6 @@ export interface Song {
   url?: string;
   primary_artist?: Artist;
   featured_artists?: Artist[];
-  album?: Album;
   media?: Media;
 }
 

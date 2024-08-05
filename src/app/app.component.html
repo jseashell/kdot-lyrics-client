@@ -3,16 +3,20 @@
     <mat-card>
       <mat-card-content>
         <ul>
-          @for (lyric of song.lyrics; track lyric) {
+          @for (lyric of song.lyrics; track $index) {
             <li>
               <p>{{ lyric }}</p>
             </li>
           }
         </ul>
-        <p class="title">
-          <img [src]="song?.song?.header_image_thumbnail_url" width="64" height="64" />
-          <i> - {{ song?.song?.title }} </i>
-        </p>
+        <div class="title">
+          <img [src]="song?.song?.header_image_thumbnail_url" width="128" height="128" />
+          <p>
+            <span class="song-title">{{ song?.song?.title }}</span>
+            <span class="artist-names">{{ song?.song?.artist_names }}</span>
+            <span class="album-name">{{ song?.album?.name }}</span>
+          </p>
+        </div>
       </mat-card-content>
     </mat-card>
   }

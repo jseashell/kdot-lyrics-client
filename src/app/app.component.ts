@@ -25,26 +25,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private songService = inject(SongService);
   song$ = new ReplaySubject<ScrapedSong>(1);
 
-  private ignorelist = ['Facebook Q&A 1/31/14', 'good kid, m.A.A.d city Album Review'];
+  private ignorelist = [
+    'Facebook Q&A',
+    'Album Review',
+    'GQ',
+    'Interview with DJ Dave',
+    'The Late Show with Stephen Colbert',
+    '2014 Grammys',
+    'Hot 97',
+  ].join(',');
 
   ngAfterViewInit() {
-    this.subs.push(
-      this.bo
-        .observe([
-          Breakpoints.XSmall,
-          Breakpoints.Small,
-          Breakpoints.Medium,
-          Breakpoints.HandsetPortrait,
-          Breakpoints.TabletLandscape,
-          Breakpoints.WebPortrait,
-        ])
-        .subscribe((state) => {
-          if (state.matches) {
-            this.main.nativeElement.classList.add('mobile');
-          }
-        }),
-    );
-
     this.subs.push(
       this.bo
         .observe([
@@ -76,18 +67,18 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         let i = 0;
         while (!exit) {
           this.refresh();
-          await firstValueFrom(this.song$).then((retrySong) => {
-            if (retrySong?.song?.title && retrySong?.song?.header_image_thumbnail_url && song?.lyrics?.length > 0) {
-              song = retrySong;
-              exit = true;
-            }
-            i++;
+          const retrySong = await firstValueFrom(this.song$);
 
-            if (i >= max) {
-              // avoid infinite loop
-              exit = true;
-            }
-          });
+          if (retrySong?.song?.title && retrySong?.song?.header_image_thumbnail_url && retrySong?.lyrics?.length == 4) {
+            song = retrySong;
+            exit = true;
+          }
+          i++;
+
+          if (i >= max) {
+            // avoid infinite loop
+            exit = true;
+          }
         }
       }
     });

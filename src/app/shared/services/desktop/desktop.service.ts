@@ -10,13 +10,7 @@ export class DesktopService {
 
   get isDesktop$(): Observable<boolean> {
     return this.bo
-      .observe([
-        Breakpoints.Large,
-        Breakpoints.XLarge,
-        Breakpoints.HandsetLandscape,
-        Breakpoints.TabletLandscape,
-        Breakpoints.WebLandscape,
-      ])
+      .observe([Breakpoints.Large, Breakpoints.XLarge, Breakpoints.Web])
       .pipe(map((state) => state.matches));
   }
 }

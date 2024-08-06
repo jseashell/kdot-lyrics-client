@@ -1,27 +1,42 @@
 mat-card {
-  height: 12rem;
-  width: 6rem;
+  height: 13rem;
+  width: 7rem;
   display: flex;
   background-color: rgb(0, 0, 0, 0.4);
   border-radius: 10px;
 }
 
+mat-card.desktop {
+  width: 14rem;
+  height: 20rem;
+}
+
 mat-card-content {
-  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0.5rem;
+  height: 100%;
 }
 
 img {
-  width: 6rem;
-  height: 6rem;
+  width: 7rem;
+  height: 7rem;
   border-radius: 10px 10px 0 0;
+}
+
+mat-card.desktop img {
+  width: 14rem;
+  height: 14rem;
 }
 
 p.title {
   width: 7rem;
   margin: 0.25rem;
+}
+
+mat-card.desktop p.title {
+  width: unset;
 }
 
 span.date {

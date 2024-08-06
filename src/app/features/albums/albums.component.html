@@ -1,4 +1,4 @@
-<ul>
+<ul [ngClass]="{ desktop: (isDesktop$ | async) == true }">
   @for (album of albums; track $index) {
     <li>
       <app-album-card [album]="album" [align]="$index % 2 == 0 ? 'start' : 'end'"></app-album-card>

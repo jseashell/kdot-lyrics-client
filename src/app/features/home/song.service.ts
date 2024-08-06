@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ScrapedSong } from './song.interface';
 
 @Injectable()
@@ -19,7 +19,6 @@ export class SongService {
           lyrics: song.lyrics?.slice(rand, rand + numLyrics) || [],
         };
       }),
-      tap((song) => console.log('loaded song', song)),
     );
   }
 

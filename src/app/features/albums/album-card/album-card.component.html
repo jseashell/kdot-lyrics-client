@@ -1,4 +1,7 @@
-<mat-card [style.alignItems]="align == 'start' ? 'flex-start' : align == 'end' ? 'flex-end' : 'flex-start'">
+<mat-card
+  [ngClass]="{ desktop: (isDesktop$ | async) == true }"
+  [style.alignItems]="align == 'start' ? 'flex-start' : align == 'end' ? 'flex-end' : 'flex-start'"
+>
   <img [src]="album.thumbnail" width="80" height="80" [alt]="album.title" />
   <mat-card-content>
     <p

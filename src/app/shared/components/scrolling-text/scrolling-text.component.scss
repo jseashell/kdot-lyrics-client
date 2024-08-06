@@ -1,21 +1,38 @@
+:host {
+  position: relative;
+  width: 100%;
+}
+
 div {
-  width: 240px; /* Adjust based on your design */
   overflow: hidden;
   white-space: nowrap;
   position: relative;
+  width: 100%;
 }
 
 span {
   display: inline-block;
 }
 
+.first-scroll {
+  animation: first-scroller 20s linear infinite;
+}
 .scroll {
-  animation: scroller 10s linear infinite;
+  animation: scroller 20s linear infinite;
+}
+
+@keyframes first-scroller {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 @keyframes scroller {
   0% {
-    transform: translateX(0%);
+    transform: translateX(100%);
   }
   100% {
     transform: translateX(-100%);

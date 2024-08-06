@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { tap, timer } from 'rxjs';
+import { delay, tap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-scrolling-text',
@@ -16,6 +16,11 @@ export class ScrollingTextComponent implements AfterViewInit {
     timer(2000)
       .pipe(
         tap(() => {
+          this.spanEl?.nativeElement.classList.add('first-scroll');
+        }),
+        delay(19500), // 20s in css - 500ms to account for screen flickering
+        tap(() => {
+          this.spanEl?.nativeElement.classList.remove('first-scroll');
           this.spanEl?.nativeElement.classList.add('scroll');
         }),
       )

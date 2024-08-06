@@ -1,11 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { DesktopService } from '@services';
 import { Dayjs } from 'dayjs';
 
 @Component({
   selector: 'app-album-card',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [AsyncPipe, MatCardModule, NgClass],
+  providers: [DesktopService],
   templateUrl: './album-card.component.html',
   styleUrl: './album-card.component.scss',
 })
@@ -16,4 +19,7 @@ export class AlbumCardComponent {
     releaseDate: Dayjs | undefined;
   };
   @Input() align!: 'start' | 'end';
+
+  private desktopService = inject(DesktopService);
+  isDesktop$ = this.desktopService.isDesktop$;
 }

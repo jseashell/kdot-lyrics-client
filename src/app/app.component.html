@@ -1,12 +1,12 @@
-<div>
+<div [ngClass]="{ desktop: (isDesktop$ | async) == true }">
   <main #main>
     <router-outlet></router-outlet>
   </main>
   <header>
     <nav>
-      <a mat-flat-button routerLink="/home">Home</a>
-      <a mat-flat-button routerLink="/albums">Albums</a>
-      <a mat-flat-button routerLink="/links">Links</a>
+      <a mat-button routerLink="/home">Home</a>
+      <a mat-button routerLink="/albums">Albums</a>
+      <a mat-button routerLink="/links">Links</a>
     </nav>
   </header>
 </div>

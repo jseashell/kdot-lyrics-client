@@ -1,28 +1,34 @@
-import { AsyncPipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, inject, OnDestroy } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { ScrollingTextComponent } from '@components';
 import { DesktopService } from '@services';
-import { firstValueFrom, ReplaySubject, Subscription } from 'rxjs';
+import { firstValueFrom, ReplaySubject } from 'rxjs';
 import { ScrapedSong } from './song.interface';
 import { SongService } from './song.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatCardModule, MatDividerModule, MatIconModule, ScrollingTextComponent],
+  imports: [
+    AsyncPipe,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    NgClass,
+    ScrollingTextComponent,
+  ],
   providers: [DesktopService, SongService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements AfterViewInit, OnDestroy {
-  @HostBinding('class.desktop') desktop = false;
+export class HomeComponent implements AfterViewInit {
   private desktopService = inject(DesktopService);
-  private cdr = inject(ChangeDetectorRef);
-  private subs: Subscription[] = [];
+  isDesktop$ = this.desktopService.isDesktop$;
 
   private songService = inject(SongService);
   song$ = new ReplaySubject<ScrapedSong>(1);
@@ -33,21 +39,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     'GQ',
     'Interview with DJ Dave',
     'The Late Show with Stephen Colbert',
-    '2014 Grammys',
+    'Comments on 2014 Grammys',
     'Hot 97',
     'DJ Mix',
-  ].join(',');
+    'Introduction Speech',
+  ].join(' ');
 
   ngAfterViewInit() {
-    this.subs.push(
-      this.desktopService.isDesktop$.subscribe((isDesktop) => {
-        if (isDesktop) {
-          this.desktop == true;
-          this.cdr.detectChanges();
-        }
-      }),
-    );
-
     this.songService.random$.subscribe(async (randomSong) => {
       if (
         randomSong &&
@@ -90,9 +88,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.songService.random$.subscribe((song) => {
       this.song$.next(song);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subs?.forEach((sub) => sub?.unsubscribe());
   }
 }

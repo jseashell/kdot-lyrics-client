@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
+import { DesktopService } from '@services';
 import dayjs from 'dayjs';
 import { AlbumCardComponent } from './album-card/album-card.component';
 
 @Component({
   selector: 'app-albums',
   standalone: true,
-  imports: [AlbumCardComponent, MatCardModule, MatGridListModule, MatListModule],
+  imports: [AlbumCardComponent, AsyncPipe, MatCardModule, MatGridListModule, MatListModule, NgClass],
+  providers: [DesktopService],
   templateUrl: './albums.component.html',
   styleUrl: './albums.component.scss',
 })
 export class AlbumsComponent {
+  private desktopService = inject(DesktopService);
+  isDesktop$ = this.desktopService.isDesktop$;
+
   albums = [
     {
       thumbnail: '/images/albums/mmbs.jpg',

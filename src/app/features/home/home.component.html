@@ -9,7 +9,12 @@
         }
       </ul>
       <div class="title">
-        <img [src]="song.album?.cover_art_url || song?.song?.header_image_thumbnail_url" width="64" height="64" />
+        <img
+          [src]="song.album?.cover_art_url || song?.song?.header_image_thumbnail_url"
+          width="64"
+          height="64"
+          [alt]="song?.song?.title"
+        />
         <div>
           @if (song?.song?.title && song.song.title.length > 25) {
             <app-scrolling-text [value]="song.song.title"></app-scrolling-text>

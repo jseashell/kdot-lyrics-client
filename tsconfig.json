@@ -20,6 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@components": ["src/app/shared/components"],
+      "@services": ["src/app/shared/services"],
     }
   },
   "angularCompilerOptions": {

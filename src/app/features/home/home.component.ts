@@ -1,4 +1,3 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, HostBinding, inject, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { ScrollingTextComponent } from '@components';
+import { DesktopService } from '@services';
 import { firstValueFrom, ReplaySubject, Subscription } from 'rxjs';
 import { ScrapedSong } from './song.interface';
 import { SongService } from './song.service';
@@ -14,13 +14,13 @@ import { SongService } from './song.service';
   selector: 'app-home',
   standalone: true,
   imports: [AsyncPipe, MatButtonModule, MatCardModule, MatDividerModule, MatIconModule, ScrollingTextComponent],
-  providers: [SongService],
+  providers: [DesktopService, SongService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
-  @HostBinding('class.web') web = false;
-  private bo = inject(BreakpointObserver);
+  @HostBinding('class.desktop') desktop = false;
+  private desktopService = inject(DesktopService);
   private cdr = inject(ChangeDetectorRef);
   private subs: Subscription[] = [];
 
@@ -40,20 +40,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.subs.push(
-      this.bo
-        .observe([
-          Breakpoints.Large,
-          Breakpoints.XLarge,
-          Breakpoints.HandsetLandscape,
-          Breakpoints.TabletLandscape,
-          Breakpoints.WebLandscape,
-        ])
-        .subscribe((state) => {
-          if (state.matches) {
-            this.web == true;
-            this.cdr.detectChanges();
-          }
-        }),
+      this.desktopService.isDesktop$.subscribe((isDesktop) => {
+        if (isDesktop) {
+          this.desktop == true;
+          this.cdr.detectChanges();
+        }
+      }),
     );
 
     this.songService.random$.subscribe(async (randomSong) => {

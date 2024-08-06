@@ -13,7 +13,7 @@ export class AlbumCardComponent {
   @Input() album!: {
     thumbnail: string;
     title: string;
-    releaseDate: Dayjs;
+    releaseDate: Dayjs | undefined;
   };
-  @Input() width!: string;
+  @Input() align!: 'start' | 'end';
 }

@@ -1,7 +1,14 @@
-<mat-card [style.width]="width">
-  <img mat-card-image [src]="album.thumbnail" width="90" height="90" [alt]="album.title" />
+<mat-card [style.alignItems]="align == 'start' ? 'flex-start' : align == 'end' ? 'flex-end' : 'flex-start'">
+  <img [src]="album.thumbnail" width="80" height="80" [alt]="album.title" />
   <mat-card-content>
-    <p class="title" [innerHTML]="album.title"></p>
-    <span class="date">{{ album.releaseDate.format('YYYY') }}</span>
+    <p
+      class="title"
+      [innerHTML]="album.title"
+      [style.textAlign]="align == 'start' ? 'left' : align == 'end' ? 'right' : 'left'"
+    >
+    </p>
+    <span class="date" [style.textAlign]="align == 'start' ? 'left' : align == 'end' ? 'right' : 'left'">
+      ({{ album.releaseDate?.format('YYYY') }})
+    </span>
   </mat-card-content>
 </mat-card>

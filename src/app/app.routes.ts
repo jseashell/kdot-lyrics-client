@@ -5,10 +5,6 @@ import { LinksComponent } from './features/links/links.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: HomeComponent,
-  },
-  {
     path: 'home',
     component: HomeComponent,
   },
@@ -19,5 +15,9 @@ export const routes: Routes = [
   {
     path: 'links',
     component: LinksComponent,
+  },
+  {
+    path: '**',
+    component: HomeComponent,
   },
 ];

@@ -1,1 +1,37 @@
-<p>links works!</p>
+<ul [ngClass]="{ desktop: (isDesktop$ | async) == true }">
+  <li>
+    <a href="https://en.wikipedia.org/wiki/kendrick_lamar" aria-label="Wikipedia">
+      <img src="/images/social/wikipedia.svg" width="36" height="36" alt="Wikipedia" />
+    </a>
+  </li>
+  <li>
+    <a href="https://www.reddit.com/r/kendricklamar" aria-label="Reddit">
+      <img src="/images/social/reddit.svg" width="36" height="36" alt="Reddit" />
+    </a>
+  </li>
+  <li>
+    <a href="https://www.instagram.com/kendricklamar" aria-label="Instagram">
+      <img src="/images/social/instagram.svg" width="36" height="36" alt="Instagram" />
+    </a>
+  </li>
+  <li>
+    <a href="https://www.tiktok.com/discover/kendrick-lamar-official-account" aria-label="TikTok">
+      <img src="/images/social/tiktok.svg" width="36" height="36" alt="TikTok" />
+    </a>
+  </li>
+  <li>
+    <a href="https://www.facebook.com/kendricklamar" aria-label="Facebook">
+      <img src="/images/social/facebook.svg" width="36" height="36" alt="Facebook" />
+    </a>
+  </li>
+  <li>
+    <a href="https://x.com/kendricklamar" aria-label="Twitter">
+      <img src="/images/social/twitter.svg" width="36" height="36" alt="Twitter" />
+    </a>
+  </li>
+  <li>
+    <a href="https://www.youtube.com/channel/UC3lBXcrKFnFAFkfVk5WuKcQ/videos" aria-label="YouTube">
+      <img src="/images/social/youtube.svg" width="36" height="36" alt="YouTube" />
+    </a>
+  </li>
+</ul>

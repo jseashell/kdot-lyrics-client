@@ -16,6 +16,7 @@
 
 mat-card {
   width: 95%;
+  min-height: 17rem;
   min-width: 385px;
   max-width: 750px;
   max-height: 100%;
@@ -37,10 +38,19 @@ ul {
 div.title {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
 }
 
+mat-card-content {
+  display: grid;
+  height: 100%;
+}
+
+mat-progress-spinner {
+  justify-self: center;
+  align-self: center;
+}
 div.title div {
   display: flex;
   flex-direction: column;

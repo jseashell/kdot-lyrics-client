@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScrollingTextComponent } from '@components';
 import { DesktopService } from '@services';
 import { firstValueFrom, ReplaySubject } from 'rxjs';
@@ -19,6 +20,7 @@ import { SongService } from './song.service';
     MatCardModule,
     MatDividerModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     NgClass,
     ScrollingTextComponent,
   ],
@@ -43,14 +45,17 @@ export class HomeComponent implements AfterViewInit {
     'Hot 97',
     'DJ Mix',
     'Introduction Speech',
-  ].join(' ');
+    'Lyric Contest Answers',
+  ]
+    .map((i) => i.toLowerCase())
+    .join(' ');
 
   ngAfterViewInit() {
     this.songService.random$.subscribe(async (randomSong) => {
       if (
         randomSong &&
         randomSong?.song?.title &&
-        !this.ignorelist.includes(randomSong?.song?.title) &&
+        !this.ignorelist.includes(randomSong?.song?.title?.toLowerCase()) &&
         randomSong?.song?.header_image_thumbnail_url &&
         randomSong?.lyrics?.length > 0
       ) {

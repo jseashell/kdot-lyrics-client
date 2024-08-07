@@ -1,12 +1,12 @@
 <div [ngClass]="{ desktop: (isDesktop$ | async) == true }">
-  <main #main>
+  <main #main [@routeAnimations]="getRouteAnimationData()">
     <router-outlet></router-outlet>
   </main>
   <header>
     <nav>
+      <a mat-button routerLink="/albums"><mat-icon>arrow_back_ios</mat-icon>Albums</a>
       <a mat-button routerLink="/home">Home</a>
-      <a mat-button routerLink="/albums">Albums</a>
-      <a mat-button routerLink="/links">Links</a>
+      <a mat-button routerLink="/links">Links<mat-icon iconPositionEnd>arrow_forward_ios</mat-icon></a>
     </nav>
   </header>
 </div>

@@ -3,8 +3,55 @@
   width: 100%;
   background: url('/images/bg/links-full.webp');
   background-size: cover;
-  background-position: 50%;
-  color: white;
+  background-position: 64%;
   display: flex;
   justify-content: center;
+}
+
+ul {
+  max-width: 750px;
+  width: 100%;
+  color: white !important;
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 5rem 0 0 0;
+  padding: 0 3rem 0 0;
+}
+
+ul.desktop {
+  flex-direction: row;
+  padding: 0;
+  max-width: 1000px;
+  margin-top: 15rem;
+}
+
+li {
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+ul.desktop li {
+  justify-content: center;
+  padding: 0;
+}
+
+a {
+  width: 10rem;
+  color: white !important;
+  text-align: right;
+}
+
+ul.desktop a {
+  width: min-content;
+  text-align: center;
+}
+
+img {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+  width: 36px;
+  aspect-ratio: 1;
 }

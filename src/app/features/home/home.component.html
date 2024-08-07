@@ -1,6 +1,6 @@
-@if (song$ | async; as song) {
-  <mat-card [ngClass]="{ desktop: (isDesktop$ | async) == true }">
-    <mat-card-content>
+<mat-card [ngClass]="{ desktop: (isDesktop$ | async) == true }">
+  <mat-card-content>
+    @if (song$ | async; as song) {
       <ul>
         @for (lyric of song.lyrics; track $index) {
           <li>
@@ -56,6 +56,8 @@
           <mat-icon>refresh</mat-icon>
         </button>
       </div>
-    </mat-card-content>
-  </mat-card>
-}
+    } @else {
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    }
+  </mat-card-content>
+</mat-card>

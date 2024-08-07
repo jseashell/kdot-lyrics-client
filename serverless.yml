@@ -64,6 +64,11 @@ resources:
           Aliases:
             - ${self:custom.domainName}
           DefaultRootObject: index.html
+          CustomErrorResponses:
+            - ErrorCode: 400 # equivalent of 4xx
+              ResponsePagePath: index.html
+            - ErrorCode: 500 # equivalent of 5xx
+              ResponsePagePath: index.html
           DefaultCacheBehavior:
             Compress: true
             AllowedMethods:

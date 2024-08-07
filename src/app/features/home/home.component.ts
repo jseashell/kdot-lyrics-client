@@ -46,6 +46,8 @@ export class HomeComponent implements AfterViewInit {
     'DJ Mix',
     'Introduction Speech',
     'Lyric Contest Answers',
+    'Super Bowl',
+    'Halftime Show',
   ]
     .map((i) => i.toLowerCase())
     .join(' ');

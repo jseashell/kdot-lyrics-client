@@ -8,7 +8,7 @@ export class SongService {
   private http = inject(HttpClient);
 
   get random$(): Observable<ScrapedSong> {
-    const endpoint = 'https://0h296ci3w4.execute-api.us-east-1.amazonaws.com/random-song';
+    const endpoint = 'https://b7mctdx46g.execute-api.us-east-1.amazonaws.com/random-song';
 
     return this.http.get<ScrapedSong>(endpoint).pipe(
       map((song) => {

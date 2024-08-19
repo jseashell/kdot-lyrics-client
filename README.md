@@ -1,6 +1,8 @@
 # K. Lyrics
 
-Angular client for [K. Lyrics](https://kdotlyrics.com)
+Client for [https://kdotlyrics.com](https://kdotlyrics.com)
+
+![Desktop](./public/images/desktop.png)
 
 ## Development server
 
